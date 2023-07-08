@@ -1,0 +1,14 @@
+dependencies{
+    implementation project(':api')
+}
+
+jar {
+    archiveFileName = "${project.archivesBaseName}.jar"
+    from{
+        configurations.runtimeClasspath.collect{it.isDirectory() ? it : zipTree(it)}
+    }
+    
+    from(projectDir){
+        include "plugin.json"
+    }
+}

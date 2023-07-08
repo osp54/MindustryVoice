@@ -1,0 +1,4 @@
+rootProject.name = 'MindustryVoice'
+include('api')
+include('server')
+include('client')
