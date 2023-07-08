@@ -149,10 +149,16 @@ gradle-app.setting
 /html/build/
 /ios/build/
 /ios-moe/build/
+/client/build/
+/server/build/
+/api/build/
+/client/bin/
+/server/bin/
+/api/bin/
 
 ## OS Specific
 .DS_Store
 Thumbs.db
 android/libs/
 
-/client/mindustry-server/
+/server/mindustry-server/
