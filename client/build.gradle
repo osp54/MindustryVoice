@@ -4,8 +4,8 @@ ext {
 }
 
 dependencies{
-    compileOnly files("/libs/android.jar")
-    implementation files("/libs/opus-jni.jar")
+    compileOnly files("libs/android.jar")
+    implementation files("libs/opus-jni.jar")
 
     implementation project(':api')
 }
