@@ -1,9 +1,0 @@
-{
-    "displayName": "MindustryVoice",
-    "name": "mindustry-voice",
-    "author": "osp54",
-    "main": "mindustryvoice.VoiceServerPlugin",
-    "minGameVersion": "145",
-    "description": "A plugin for voice messages",
-    "version": 0.1
-  }
