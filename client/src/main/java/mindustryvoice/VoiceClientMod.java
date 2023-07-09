@@ -9,7 +9,7 @@ import mindustry.Vars;
 import mindustry.game.EventType;
 import mindustry.mod.Mod;
 import mindustryvoice.api.VoiceMessage;
-import net.labymod.opus.OpusCodec;;
+import net.labymod.opus.OpusCodec;
 
 public class VoiceClientMod extends Mod {
     public static VoiceClientMod instance;
@@ -32,7 +32,7 @@ public class VoiceClientMod extends Mod {
     public void init() {
         try {
 			OpusCodec.setupWithTemporaryFolder();
-		} catch (IOException e) {
+		} catch (Exception e) {
 			Log.err(e);
             Vars.ui.showException("Error ocurred while loading Opus Codec", e);
             return;

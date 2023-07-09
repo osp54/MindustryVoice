@@ -3,10 +3,15 @@ ext {
     sdkRoot = System.getenv("ANDROID_HOME") ?: System.getenv("ANDROID_SDK_ROOT")
 }
 
-dependencies{
-    compileOnly files("libs/android.jar")
-    implementation files("libs/opus-jni.jar")
+repositories {
+    flatDir {
+        dirs("libs")
+    }
+}
 
+dependencies{
+    compileOnly(name:"android")
+    implementation(name:"opus-jni")
     implementation project(':api')
 }
 
