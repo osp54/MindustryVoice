@@ -10,8 +10,11 @@ import arc.net.NetListener;
 import arc.net.NetListener.ThreadedListener;
 import arc.util.Log;
 import arc.util.Threads;
+import arc.util.serialization.Base64Coder;
+import mindustry.Vars;
 import mindustryvoice.api.PacketSerializer;
 import mindustryvoice.api.VoiceMessage;
+import mindustryvoice.api.ConnectPacket;
 import mindustryvoice.api.Internal;
 
 public class VoiceClient {
@@ -28,13 +31,15 @@ public class VoiceClient {
         this.client.addListener(new ThreadedListener(new NetListener() {
             @Override
             public void connected(Connection connection) {
-                Log.info("[Sock] Connected to Sock server @. (@)", connection.getID(),
+                Log.info("Connected to voice server @. (@)", connection.getID(),
                         connection.getRemoteAddressTCP());
+
+                client.sendTCP(new ConnectPacket(Vars.platform.getUUID()));
             }
 
             @Override
             public void disconnected(Connection connection, DcReason reason) {
-                Log.info("[Sock] Disconnected from Sock server @ due to @", connection.getID(), reason);
+                Log.info("Disconnected from voice server @ due to @", connection.getID(), reason);
             }
 
             @Override
@@ -65,6 +70,10 @@ public class VoiceClient {
 
     public void sendUDP(Object object) {
         client.sendUDP(object);
+    }
+
+    public void sendTCP(Object object) {
+        client.sendTCP(object);
     }
 
     public boolean isConnected() {

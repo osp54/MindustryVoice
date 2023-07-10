@@ -1,6 +1,7 @@
 package mindustryvoice.api;
 
 import java.nio.ByteBuffer;
+import java.util.zip.CRC32;
 
 import arc.net.FrameworkMessage;
 import arc.net.FrameworkMessage.DiscoverHost;
@@ -10,6 +11,9 @@ import arc.net.FrameworkMessage.RegisterTCP;
 import arc.net.FrameworkMessage.RegisterUDP;
 import arc.util.io.ByteBufferInput;
 import arc.util.io.ByteBufferOutput;
+import arc.util.io.Writes;
+import arc.util.serialization.Base64Coder;
+import mindustry.io.TypeIO;
 import arc.net.NetSerializer;
 
 public class PacketSerializer implements NetSerializer {
@@ -21,8 +25,15 @@ public class PacketSerializer implements NetSerializer {
         if (object instanceof FrameworkMessage m) {
             out.write(-2);
             writeFramework(buffer, m);
-        } else if (object instanceof VoiceMessage m) {
+        } else if (object instanceof ConnectPacket p) {
             out.write(1);
+            byte[] b = Base64Coder.decode(p.uuid);
+            out.write(b);
+            CRC32 crc = new CRC32();
+            crc.update(Base64Coder.decode(p.uuid), 0, b.length);
+            out.writeLong(crc.getValue());
+        } else if (object instanceof VoiceMessage m) {
+            out.write(2);
             out.write(m.playerId);
             out.write(m.samples.length);
             out.write(m.samples);
@@ -37,10 +48,15 @@ public class PacketSerializer implements NetSerializer {
         if (type == -2) {
             return readFramework(buffer);
         } else if (type == 1) {
+            byte[] idbytes = new byte[16];
+            buffer.get(idbytes);
+            String uuid = new String(Base64Coder.encode(idbytes));
+            return new ConnectPacket(uuid);
+        } else if (type == 2) {
             var message = new VoiceMessage();
 
             message.playerId = in.readInt();
-            
+
             message.samples = new byte[in.readInt()];
             in.readFully(message.samples);
 

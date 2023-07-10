@@ -65,6 +65,7 @@ public class VoiceClientMod extends Mod {
 
             try {
 				client.connect();
+                
                 startRecordingThread();
 			} catch (Exception e) {
                 Log.err(e);
@@ -82,7 +83,7 @@ public class VoiceClientMod extends Mod {
                 audioRecorder.read(data.length);
 
                 byte[] decodedSamples = codec.decodeFrame(data);
-                VoiceMessage message = new VoiceMessage(Vars.player.id, decodedSamples);
+                VoiceMessage message = new VoiceMessage(decodedSamples);
                 if (client.isConnected()) client.sendUDP(message);
             }
         });

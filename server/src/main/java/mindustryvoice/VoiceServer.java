@@ -11,6 +11,8 @@ import arc.net.Server;
 import arc.util.Log;
 import arc.util.Threads;
 import mindustry.gen.Groups;
+import mindustry.gen.Player;
+import mindustryvoice.api.ConnectPacket;
 import mindustryvoice.api.Internal;
 import mindustryvoice.api.PacketSerializer;
 import mindustryvoice.api.VoiceMessage;
@@ -40,9 +42,24 @@ public class VoiceServer {
 
             @Override
             public void received(Connection connection, Object object) {
+                if (object instanceof ConnectPacket packet && connection.getArbitraryData() == null) {
+                    if (packet.uuid == null) {
+                        connection.close(DcReason.closed);
+                        return;
+                    }
+
+                    Player player = Groups.player.find(p -> p.uuid().equals(packet.uuid));
+
+                    if (player != null) connection.setArbitraryData(new VoiceUserData(player));
+                    else connection.close(DcReason.closed);
+                    
+                    return;
+                }
+
                 if (object instanceof VoiceMessage m) {
-                    if (Groups.player.contains(p -> p.id == m.playerId));
-                        server.sendToAllExceptTCP(connection.getID(), object);
+                    if (connection.getArbitraryData() instanceof VoiceUserData data) {
+                        server.sendToAllExceptUDP(connection.getID(), m.setPlayerId(data.player.id));
+                    }
                 }
             }
         }));

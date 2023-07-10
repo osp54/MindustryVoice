@@ -2,10 +2,15 @@ package mindustryvoice.api;
 
 public class VoiceMessage {
     public int playerId;
+
+    public VoiceMessage setPlayerId(int playerId) {
+        this.playerId = playerId;
+        return this;
+    }
+
     public byte[] samples;
 
-	public VoiceMessage(int playerId, byte[] samples) {
-		this.playerId = playerId;
+	public VoiceMessage(byte[] samples) {
 		this.samples = samples;
 	}
 
