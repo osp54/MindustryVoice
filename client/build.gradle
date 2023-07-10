@@ -11,6 +11,7 @@ repositories {
 
 dependencies{
     compileOnly(name:"android")
+    
     implementation(name:"opus-jni")
     implementation project(':api')
 }

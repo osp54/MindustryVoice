@@ -1,4 +1,5 @@
 rootProject.name = 'MindustryVoice'
 include('api')
+include('opus-cp')
 include('server')
 include('client')
