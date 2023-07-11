@@ -156,6 +156,8 @@ gradle-app.setting
 /server/bin/
 /api/bin/
 
+/opus-cp/rust/target/
+
 ## OS Specific
 .DS_Store
 Thumbs.db
