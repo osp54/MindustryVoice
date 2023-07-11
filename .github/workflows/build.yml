@@ -1,9 +1,9 @@
-name: Build mod
+name: Build
 
 on: [push]
 
 jobs:
-  buildJar:
+  buildClient:
     runs-on: ubuntu-latest
 
     steps:
@@ -22,4 +22,51 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: ${{ github.event.repository.name }}
-        path: client/build/libs/
+        path: client/build/libs/        
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Rust
+        uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          toolchain: stable
+
+      - name: Install cross toolchains
+        run: |
+          rustup target add x86_64-unknown-linux-gnu
+          rustup target add x86_64-pc-windows-gnu
+          rustup target add aarch64-linux-android
+          rustup target add armv7-linux-androideabi
+
+      - name: Build for Linux and Windows
+        run: |
+          cd opus-cp/rust
+          cargo build --release --target x86_64-unknown-linux-gnu
+          mkdir -p natives/linux_64
+          cp target/x86_64-unknown-linux-gnu/release/lib*.so* natives/linux_64
+          mkdir -p natives/windows_64
+          cp target/x86_64-pc-windows-gnu/release/*.dll* natives/windows_64
+
+      - name: Build for Android
+        run: |
+          cd opus-cp/rust
+          cargo build --release --target armv7-linux-androideabi
+          mkdir -p natives/android_armv7
+          cp target/armv7-linux-androideabi/release/lib*.so* natives/android_armv7
+          mkdir -p natives/android_aarch64
+          cp target/aarch64-linux-android/release/lib*.so* natives/android_aarch64
+
+      - name: Archive artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: natives
+          path: natives
+
+      - name: Display artifact paths
+        run: |
+          ls -R natives/
