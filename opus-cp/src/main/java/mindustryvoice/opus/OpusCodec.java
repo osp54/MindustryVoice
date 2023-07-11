@@ -25,34 +25,34 @@ public class OpusCodec {
     public final int maxFrameSize = 6 * 960;
     public final int maxPacketSize = 3 * 1276;
 
-    private final OpusCodecOptions opusOptions = new OpusCodecOptions();
+    //private final OpusCodecOptions opusOptions = new OpusCodecOptions();
 
     private OpusCodec() {
-        System.loadLibrary("opus-cp");
+        System.loadLibrary("opus_cp");
     }
 
     public int getFrameSize() {
-        return this.opusOptions.frameSize;
+        return this.frameSize;
     }
 
     public int getSampleRate() {
-        return this.opusOptions.sampleRate;
+        return this.sampleRate;
     }
 
     public int getChannels() {
-        return this.opusOptions.channels;
+        return this.channels;
     }
 
     public int getBitrate() {
-        return this.opusOptions.bitrate;
+        return this.bitrate;
     }
 
     public int getMaxFrameSize() {
-        return this.opusOptions.maxFrameSize;
+        return this.maxFrameSize;
     }
 
     public int getMaxPacketSize() {
-        return this.opusOptions.maxPacketSize;
+        return this.maxPacketSize;
     }
 
     /**
@@ -100,9 +100,9 @@ public class OpusCodec {
 
             // Encoding PCM data chunk
             byte[] encode = codec.encodeFrame(data);
-            //System.out.println(Arrays.toString(encode));
-            // Decoding PCM data chunk
+            
             byte[] decoded = codec.decodeFrame(encode);
+            //System.out.println(Arrays.toString(decoded));
             speaker.write(decoded, 0, decoded.length);
         }
     }
