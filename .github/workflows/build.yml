@@ -18,7 +18,9 @@ jobs:
           profile: minimal
           override: true
           target: ${{ matrix.target }}
-
+      - uses: Swatinem/rust-cache@v2
+        with:
+          prefix-key: "rust-cache-${{ matrix.target }}"
       - name: Build target
         uses: actions-rs/cargo@v1
         with:
