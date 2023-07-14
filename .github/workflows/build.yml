@@ -22,10 +22,9 @@ jobs:
       - name: Build target
         uses: actions-rs/cargo@v1
         with:
-          path: "./opus-cp/rust"
           use-cross: true
           command: build
-          args: --release --target ${{ matrix.target }}
+          args: --release --manifest-path opus-cp/rust/Cargo.toml --target ${{ matrix.target }}
   buildClient:
     runs-on: ubuntu-latest
 
