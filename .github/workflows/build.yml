@@ -48,7 +48,9 @@ jobs:
           command: build
           args: --release --manifest-path opus-cp/rust/Cargo.toml --target ${{ matrix.platform.target }}
       - name: Artifact
-        run: ls opus-cp/rust/target/${{ matrix.platform.target }}/${{ matrix.platform.bin }}
+        run: | 
+          tree opus-cp/rust
+          #ls opus-cp/rust/target/${{ matrix.platform.target }}/${{ matrix.platform.bin }}
   buildClient:
     runs-on: ubuntu-latest
 
