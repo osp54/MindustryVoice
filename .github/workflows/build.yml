@@ -49,7 +49,7 @@ jobs:
           args: --release --manifest-path opus-cp/rust/Cargo.toml --target ${{ matrix.platform.target }}
       - name: Artifact
         run: | 
-          ls opus-cp/rust/target/release/${{ matrix.platform.target }}
+          ls opus-cp/rust/
   buildClient:
     runs-on: ubuntu-latest
 
