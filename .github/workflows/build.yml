@@ -27,6 +27,8 @@ jobs:
           use-cross: true
           command: build
           args: --release --manifest-path opus-cp/rust/Cargo.toml --target ${{ matrix.target }}
+      - name: Info
+        run: ls -r opus-cp/${{ matrix.target }}/
   buildClient:
     runs-on: ubuntu-latest
 
