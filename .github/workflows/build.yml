@@ -10,10 +10,10 @@ jobs:
       matrix:
         platform:
           - build-for: windows_64
-            target: x86_64-pc-windows-gnu
+            target: x86_64-pc-windows-msvc
             bin: opus_cp.dll
           - build-for: windows_32
-            target: i686-pc-windows-gnu
+            target: i686-pc-windows-msvc
             bin: opus_cp.dll
           - build-for: linux_64
             target: x86_64-unknown-linux-gnu
@@ -49,7 +49,7 @@ jobs:
           args: --release --manifest-path opus-cp/rust/Cargo.toml --target ${{ matrix.platform.target }}
       - name: Artifact
         run: | 
-          ls opus-cp/rust/target/release/${{ matrix.platform.target }}/${{ matrix.platform.bin }}
+          ls opus-cp/rust/target/release/${{ matrix.platform.target }}
   buildClient:
     runs-on: ubuntu-latest
 
