@@ -53,9 +53,16 @@ jobs:
           use-cross: true
           command: build
           args: --release --manifest-path opus-cp/rust/Cargo.toml --target ${{ matrix.platform.target }}
-      - name: Artifact
-        run: | 
-          tree opus-cp/rust/
+      #- name: Artifact packing
+      #  run: |
+      #    cd opus-cp/rust
+      #    mkdir ${{ matrix.platform.build-for }}
+      #    cp target/${{ matrix.platform.target }}/release/${{ matrix.platform.bin }} ${{ matrix.platform.build-for }}
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ matrix.platform.build-for }}
+          path: opus-cp/rust/target/${{ matrix.platform.target }}/release/${{ matrix.platform.bin }}
   buildClient:
     runs-on: ubuntu-latest
 
